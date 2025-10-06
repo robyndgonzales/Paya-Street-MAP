@@ -1,5 +1,7 @@
+//map centered in Philippines
 var map = L.map('map').setView([12.8797, 121.7740], 6);
 
+//OpenStreetMap tiles
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   maxZoom: 19,
   attribution: '&copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
@@ -22,11 +24,11 @@ var branches = [
   { name: "Paya Street - General Santos", coords: [6.1164, 125.1716] }
 ];
 
-
+//interactive markers
 branches.forEach(branch => {
   const marker = L.marker(branch.coords).addTo(map);
 
-  
+  //clickable links direction
   const directionsHTML = `
     <b>${branch.name}</b><br>
     <a href="https://www.google.com/maps/dir/?api=1&destination=${branch.coords[0]},${branch.coords[1]}"
@@ -38,9 +40,11 @@ branches.forEach(branch => {
   marker.bindPopup(directionsHTML);
 });
 
+//auto zoom to fit all branches
 var group = new L.featureGroup(branches.map(b => L.marker(b.coords)));
 map.fitBounds(group.getBounds(), { padding: [40, 40] });
 
+//mobile navigation menu
 const menuToggle = document.createElement('div');
 menuToggle.classList.add('menu-toggle');
 menuToggle.innerHTML = '☰';
