@@ -40,7 +40,7 @@ branches.forEach(branch => {
   marker.bindPopup(directionsHTML);
 });
 
-//auto zoom to fit all branches
+//auto zoom 
 var group = new L.featureGroup(branches.map(b => L.marker(b.coords)));
 map.fitBounds(group.getBounds(), { padding: [40, 40] });
 
@@ -53,5 +53,19 @@ document.querySelector('.navbar').prepend(menuToggle);
 menuToggle.addEventListener('click', () => {
   document.querySelector('.nav-links').classList.toggle('active');
 });
+
+// search control
+L.Control.geocoder({
+  defaultMarkGeocode: false
+})
+.on('markgeocode', function(e) {
+  var latlng = e.geocode.center;
+  L.marker(latlng).addTo(map)
+    .bindPopup(`<b>${e.geocode.name}</b>`)
+    .openPopup();
+  map.setView(latlng, 13);
+})
+.addTo(map);
+
 
 
